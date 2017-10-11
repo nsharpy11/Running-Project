@@ -1,12 +1,15 @@
 .jumbotron {
-    background-image: url(http://www.destination360.com/north-america/us/indiana/west-lafayette/campus-inn-map.gif);
     display: flex;
     align-items: center;
     background-size: cover;
-    color: #000000;
     height: 500px;
 }
 
 .navbar-brand {
-    font-size: 50px;
+    font-size: 40px;
+}
+
+#map {
+    height: inherit;
+    width: 100%;
 }
