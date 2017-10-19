@@ -25,7 +25,7 @@
                       <span class="icon-bar"></span>
                       <span class="icon-bar"></span>
                     </button>
-                <a class="navbar-brand" href="#">Route Finder</a>
+                <a class="navbar-brand" id="my-nav" href="#">Route Finder</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -39,18 +39,21 @@
         </div>
         <!-- /.container-fluid -->
     </nav>
-    <h2>Choose Area:</h2>
+    <h2>Choose Location:</h2>
     <section class="jumbotron">
+        <input id="pac-input" class="controls" type="text" placeholder="Search Box">
         <div id="map">
             <script src="app.js"></script>
-            <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBkwrOXg2aAkA7WSsHM8kilgPKb1czoVd0&callback=initMap">
+            <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBkwrOXg2aAkA7WSsHM8kilgPKb1czoVd0&callback=initMap&libraries=drawing">
             </script>
         </div>
     </section>
-    <div class="input-group">
-        <span class="input-group-addon" id="basic-addon1">Choose Distance:</span>
-        <input class="form-control" placeholder="3.1" aria-describedby="basic-addon1" type="number" min="0" onkeypress="return (event.charCode >= 46 && event.charCode <= 57)">
-        <span class="input-group-addon" id="basic-addon2">Miles</span>
+    <div class="container">
+        <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1">Choose Distance:</span>
+            <input class="form-control" placeholder="3.1" aria-describedby="basic-addon1" type="number" min="0" onkeypress="return (event.charCode >= 46 && event.charCode <= 57)">
+            <span class="input-group-addon" id="basic-addon2">Miles</span>
+        </div>
     </div>
 </body>
 
