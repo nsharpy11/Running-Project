@@ -67,12 +67,6 @@ function initMap() {
                 bounds.extend(place.geometry.location);
             }
         });
-        map.fitBounds(bounds);
-    });
-    var obj = {
-        "c": 2,
-        "g": 1
-    }
 
-    obj.c
+    });
 }
