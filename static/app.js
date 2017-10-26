@@ -1,4 +1,4 @@
-    function initAutocomplete() {
+    function initMap() {
 
         var purdue = {
             lat: 40.423756,
@@ -69,4 +69,5 @@
             });
             map.fitBounds(bounds);
         });
+
     }
