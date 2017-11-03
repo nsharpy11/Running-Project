@@ -6,6 +6,7 @@ PLACE_TYPES = ['park', 'church', 'museum', 'post_office', 'school', 'courthouse'
 API_KEY = os.environ['GMAPS_KEY']
 
 app = Flask(__name__)
+gmaps = googlemaps.Client(key=API_KEY)
 
 @app.route('/')
 def home():
@@ -28,7 +29,6 @@ def places():
     return jsonify(search_places(location, radius))
 
 def search_places(location, radius):
-    gmaps = googlemaps.Client(key=API_KEY)
 
     types = ','.join(PLACE_TYPES)
 
