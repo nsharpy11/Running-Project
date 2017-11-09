@@ -1,5 +1,30 @@
 var map = {}; // google maps object
 var routeOrigin  = {}; // origin of the search
+var markers = [];
+
+// sets all the markers from a result from the /places endpoint
+var setMarkers = function(places) {
+    // Clear out the old markers.
+    markers.forEach(function(marker) {
+        marker.setMap(null);
+    });
+    markers = [];
+
+    places.forEach(function(place) {
+        var marker = new google.maps.Marker({
+            map: map,
+            title: place.name,
+            position: place.location
+        });
+        var infowindow = new google.maps.InfoWindow({
+            content: "<h6>" + place.name + "</h6><p>" + round(metersToMiles(place.distance), 2) + ' miles'
+        });
+        marker.addListener('click', function() {
+            infowindow.open(map, marker);
+        });
+        markers.push(marker);
+    });
+}
 
 function initMap() {
 
@@ -24,7 +49,6 @@ function initMap() {
         searchBox.setBounds(map.getBounds());
     });
 
-    var markers = [];
     // Listen for the event fired when the user selects a prediction and retrieve
     // more details for that place.
     searchBox.addListener('places_changed', function() {
@@ -78,16 +102,26 @@ function initMap() {
 }
 // JQuery main function
 $(function() {
-    console.log('ready!');
     $('#submit').click(function() {
+        // Get the possible destinations
         var radius = milesToMeters(parseFloat($('#distance').val()));
         var location = routeOrigin.geometry.location.lat() + "," + routeOrigin.geometry.location.lng();
         $.get('/places?radius=' + encodeURIComponent(radius) + '&location=' + encodeURIComponent(location), {}, function(res) {
             console.log(res);
+            setMarkers(res);
         })
+        $('#gobutton')
     });
 })
 
 function milesToMeters(miles) {
     return miles * 1609;
+}
+
+function metersToMiles(meters) {
+    return meters / 1609;
+}
+
+function round(value, decimals) {
+    return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
 }
