@@ -1,5 +1,5 @@
 var map = {}; // google maps object
-var routeOrigin  = {}; // origin of the search
+var routeOrigin = {}; // origin of the search
 var markers = [];
 
 // sets all the markers from a result from the /places endpoint
@@ -21,6 +21,26 @@ var setMarkers = function(places) {
         });
         marker.addListener('click', function() {
             infowindow.open(map, marker);
+            var directionsService = new google.maps.DirectionsService;
+            var directionsDisplay = new google.maps.DirectionsRenderer;
+
+            directionsDisplay.setMap(map);
+
+            calculateAndDisplayRoute(directionsService, directionsDisplay);
+
+            function calculateAndDisplayRoute(directionsService, directionsDisplay) {
+                directionsService.route({
+                    origin: routeOrigin.geometry.location,
+                    destination: place.location,
+                    travelMode: 'WALKING'
+                }, function(response, status) {
+                    if (status === 'OK') {
+                        directionsDisplay.setDirections(response);
+                    } else {
+                        window.alert('Directions request failed due to ' + status);
+                    }
+                });
+            }
         });
         markers.push(marker);
     });
@@ -110,7 +130,6 @@ $(function() {
             console.log(res);
             setMarkers(res);
         })
-        $('#gobutton')
     });
 })
 
@@ -123,5 +142,5 @@ function metersToMiles(meters) {
 }
 
 function round(value, decimals) {
-    return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+    return Number(Math.round(value + 'e' + decimals) + 'e-' + decimals);
 }
