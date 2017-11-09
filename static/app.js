@@ -1,3 +1,6 @@
+var map = {}; // google maps object
+var routeOrigin  = {}; // origin of the search
+
 function initMap() {
 
     var purdue = {
@@ -5,7 +8,7 @@ function initMap() {
         lng: -86.921542
     };
 
-    var map = new google.maps.Map(document.getElementById('map'), {
+    map = new google.maps.Map(document.getElementById('map'), {
         center: purdue,
         zoom: 11,
         mapTypeId: 'roadmap'
@@ -36,6 +39,9 @@ function initMap() {
             marker.setMap(null);
         });
         markers = [];
+
+        // set the origin
+        routeOrigin = places[0];
 
         // For each place, get the icon, name and location.
         var bounds = new google.maps.LatLngBounds();
@@ -69,4 +75,19 @@ function initMap() {
         });
 
     });
+}
+// JQuery main function
+$(function() {
+    console.log('ready!');
+    $('#submit').click(function() {
+        var radius = milesToMeters(parseFloat($('#distance').val()));
+        var location = routeOrigin.geometry.location.lat() + "," + routeOrigin.geometry.location.lng();
+        $.get('/places?radius=' + encodeURIComponent(radius) + '&location=' + encodeURIComponent(location), {}, function(res) {
+            console.log(res);
+        })
+    });
+})
+
+function milesToMeters(miles) {
+    return miles * 1609;
 }
